@@ -58,3 +58,9 @@ outputs/
 # OS
 Thumbs.db
 .DS_Store
+
+# Office documents
+*.docx
+*.doc
+*.xlsx
+*.xls

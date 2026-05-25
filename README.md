@@ -28,13 +28,16 @@ This project leverages **deep learning** and **computer vision** to automaticall
 
 ## 🎯 Features
 
-- **Automated Classification**: Real-time detection of apple leaf diseases from image input
-- **High Accuracy**: State-of-the-art CNN models achieving >95% classification accuracy
-- **Multiple Architectures**: Implemented and compared multiple deep learning models
-- **Performance Metrics**: Comprehensive evaluation including precision, recall, F1-score, and confusion matrices
-- **Easy Deployment**: Web and desktop demo applications for practical use
-- **Jupyter Notebooks**: Complete pipeline from data exploration to model deployment
-- **Detailed Reports**: Technical documentation and analysis of model performance
+- **Multi-Model Comparison**: 4 different AI techniques for classification and clustering
+- **Neural Networks**: MLP with custom architecture (4 hidden layers)
+- **Ensemble Learning**: Random Forest with 100 estimators
+- **Convolutional Networks**: Baseline CNN + optimized variants + Transfer Learning
+- **Unsupervised Learning**: K-Means clustering with advanced extensions (PCA, Deep Features)
+- **Comprehensive Evaluation**: Confusion matrices, accuracy metrics, ARI, NMI scores
+- **Visualization Suite**: Learning curves, class distributions, heatmaps
+- **Transfer Learning**: MobileNetV2 pre-trained models for advanced feature extraction
+- **Complete Jupyter Notebook**: End-to-end pipeline with detailed documentation
+- **Academic Rigor**: COMP40511 coursework requirements implementation
 
 ---
 
@@ -94,32 +97,31 @@ This will guide you through:
 
 ### Model Performance Comparison
 
-| Model | Accuracy | Precision | Recall | F1-Score |
-|-------|----------|-----------|--------|----------|
-| CNN (Custom) | 96.2% | 0.962 | 0.961 | 0.961 |
-| ResNet50 | 95.8% | 0.958 | 0.957 | 0.957 |
-| MobileNetV2 | 94.5% | 0.945 | 0.944 | 0.944 |
-| VGG16 | 93.2% | 0.932 | 0.931 | 0.931 |
+Our implementation compares four AI techniques as specified in the COMP40511 coursework:
 
-*Detailed metrics available in `outputs/model_performance_comparison.csv`*
+| Model Type | Architecture | Test Accuracy |
+|------------|--------------|---------------|
+| Neural Network (Flat) | Multilayer Perceptron (MLP) | **64.30%** |
+| Ensemble (Flat) | Random Forest (100 estimators) | **78.50%** |
+| Convolutional (Spatial) | Baseline CNN | **84.76%** |
+| Convolutional (Spatial) | Adjusted/Optimized CNN | **79.33%** |
 
-### Classification Examples
+**Best Model**: Baseline CNN with **84.76% test accuracy** ✅
 
-**Apple Scab Detection**  
-- Characteristic dark, scabby lesions on leaf surface
-- Model confidence: 98.7%
+*Complete metrics available in [outputs/model_performance_comparison.csv](apple_leaf_disease_ai/outputs/model_performance_comparison.csv)*
 
-**Black Rot Identification**  
-- Black necrotic spots with clear boundaries
-- Model confidence: 97.2%
+### Key Findings
 
-**Cedar Apple Rust Detection**  
-- Orange/yellow rust pustules on leaves
-- Model confidence: 96.8%
+- **CNN superiority**: Deep learning models (CNN) significantly outperform flat models (MLP, Random Forest)
+- **Spatial information matters**: Convolutional architecture captures leaf texture and spatial features effectively
+- **Model complexity**: The baseline CNN achieves better results than the overly-tuned adjusted CNN, suggesting good generalization
+- **Ensemble underperformance**: Random Forest on flattened pixels shows limitations without spatial feature extraction
 
-**Healthy Leaf Recognition**  
-- Normal green coloration with no lesions
-- Model confidence: 99.1%
+### Advanced Extensions Implemented
+
+1. **Transfer Learning with MobileNetV2**: Pre-trained CNN for feature extraction
+2. **PCA-based Clustering**: Dimensionality reduction for unsupervised learning
+3. **Deep Feature Clustering**: Using MobileNetV2 embeddings for advanced clustering analysis
 
 ---
 
@@ -129,40 +131,45 @@ This will guide you through:
 apple-leaf-disease-detection/
 │
 ├── apple_leaf_disease_ai/
-│   ├── dataset/                          # Training datasets
-│   │   ├── train/                        # Training images (3 diseases + healthy)
+│   ├── dataset/                          # Apple leaf image datasets
+│   │   ├── train/                        # Training images
+│   │   │   ├── Apple___Apple_scab/
+│   │   │   ├── Apple___Black_rot/
+│   │   │   ├── Apple___Cedar_apple_rust/
+│   │   │   └── Apple___healthy/
 │   │   ├── val/                          # Validation images
+│   │   │   └── [4 disease classes]
 │   │   └── test/                         # Test images
-│   │
-│   ├── notebooks/                        # Jupyter notebooks
-│   │   ├── 01_data_exploration.ipynb     # EDA and dataset analysis
-│   │   ├── 02_preprocessing.ipynb        # Data preprocessing pipeline
-│   │   └── 03_model_evaluation.ipynb     # Model comparison and evaluation
-│   │
-│   ├── models/                           # Trained model checkpoints
-│   │   ├── best_model.h5
-│   │   └── model_weights.pth
+│   │       └── [4 disease classes]
 │   │
 │   ├── outputs/                          # Training outputs
 │   │   ├── model_performance_comparison.csv
-│   │   ├── training_history.png
-│   │   ├── confusion_matrices/
-│   │   └── classification_reports/
+│   │   ├── class_distribution.png
+│   │   ├── sample_images.png
+│   │   ├── cnn_confusion_matrix.png
+│   │   ├── mlp_confusion_matrix.png
+│   │   ├── rf_confusion_matrix.png
+│   │   ├── cnn_learning_curves.png
+│   │   ├── mlp_learning_curves.png
+│   │   ├── kmeans_elbow_curve.png
+│   │   └── kmeans_crosstab_heatmap.png
 │   │
-│   ├── reports/                          # Analysis and documentation
-│   │   ├── Technical_Report.md
-│   │   └── model_analysis.pdf
+│   ├── models/                           # Trained model checkpoints
+│   │   └── apple_leaf_disease_cnn.h5    # Best performing model
 │   │
-│   ├── demo/                             # Web/Desktop application
-│   │   ├── app.py                        # Main demo application
-│   │   └── requirements_demo.txt
+│   ├── reports/                          # Documentation
+│   │   ├── Technical_Report.pdf
+│   │   └── GenAI_Acknowledgement_Form.pdf
 │   │
-│   ├── main.ipynb                        # Main entry-point notebook
+│   ├── main.ipynb                        # Complete pipeline notebook
+│   ├── extract_dataset.py                # Dataset extraction script
+│   ├── prepare_data.py                   # Data preparation utilities
+│   ├── test_project.py                   # Testing utilities
 │   ├── requirements.txt                  # Python dependencies
 │   └── README.md                         # Detailed documentation
 │
 ├── .gitignore                            # Git ignore rules
-├── README.md                             # This file
+├── README.md                             # Project overview (this file)
 └── LICENSE                               # MIT License
 
 ```
@@ -184,52 +191,96 @@ apple-leaf-disease-detection/
 
 ## 📈 Workflow
 
-### 1. **Data Collection & Preparation**
-   - Images organized by disease category
-   - Split into train (70%), validation (15%), and test (15%) sets
-   - Data augmentation applied for robustness
+### COMP40511 Coursework Implementation
 
-### 2. **Exploration & Analysis**
-   - Run `notebooks/01_data_exploration.ipynb` to visualize dataset
-   - Analyze image distributions and class balance
-   - Perform statistical analysis
+This project implements four core AI/ML techniques as part of the coursework requirements:
 
-### 3. **Preprocessing**
-   - Image normalization and resizing
-   - Data augmentation (rotation, zoom, flip)
-   - Feature extraction and enhancement
-   - See `notebooks/02_preprocessing.ipynb`
+#### **Task 1: Multilayer Perceptron (MLP)** - Neural Network (Flat)
+   - Custom-built MLP with 4 hidden layers (15 → 25 → 20 → 15 neurons)
+   - Trained on flattened image pixels
+   - Test Accuracy: **64.30%**
+   - Baseline neural network approach without spatial awareness
 
-### 4. **Model Training**
-   - Execute `main.ipynb` for end-to-end training
-   - Compare multiple architectures
-   - Hyperparameter tuning
-   - Best weights saved to `models/`
+#### **Task 2: Ensemble Model** - Random Forest Classifier
+   - 100-tree ensemble on flattened image features
+   - Max depth optimization for generalization
+   - Test Accuracy: **78.50%**
+   - Demonstrates ensemble learning vs single models
 
-### 5. **Evaluation**
-   - Comprehensive performance metrics
-   - Confusion matrix analysis
-   - Per-class precision, recall, F1-scores
-   - Review results in `outputs/`
+#### **Task 3: Deep Convolutional Neural Network (CNN)** - Spatial Architecture
+   - **Baseline CNN**: 4 convolutional blocks with max pooling
+     - Architecture: Conv32 → Conv64 → Conv128 → Conv128
+     - Test Accuracy: **84.76%** ✅ **BEST MODEL**
+   - **Adjusted CNN**: Hyperparameter tuning (lower learning rate, reduced dropout)
+     - Test Accuracy: **79.33%**
+   - **Advanced Extension**: Transfer Learning with MobileNetV2
+     - Pre-trained ImageNet weights with fine-tuning
+     - Demonstrates deep feature learning
 
-### 6. **Deployment**
-   - Run web demo: `python demo/app.py`
-   - Upload leaf images for real-time classification
-   - Get disease predictions with confidence scores
+#### **Task 4: Unsupervised Clustering** - K-Means
+   - **Baseline K-Means**: Raw pixel clustering
+   - **Advanced Extension 1**: PCA-reduced clustering (10 components)
+     - Dimensionality reduction for noise removal
+   - **Advanced Extension 2**: Deep Feature Clustering
+     - MobileNetV2 embeddings for high-level feature clustering
+   - Evaluation metrics: Adjusted Rand Index (ARI), Normalized Mutual Information (NMI)
+
+### Full Pipeline Execution
+
+1. **Run the main notebook**:
+   ```bash
+   cd apple_leaf_disease_ai
+   jupyter notebook main.ipynb
+   ```
+
+2. **Data Processing**:
+   - Images resized to 64×64 pixels
+   - Normalized to [0, 1] range
+   - Train/Val/Test splits prepared
+
+3. **Model Training**:
+   - All 4 techniques trained sequentially
+   - Performance metrics computed
+   - Confusion matrices generated
+   - Learning curves visualized
+
+4. **Results Analysis**:
+   - Check `outputs/model_performance_comparison.csv`
+   - View confusion matrices and learning curves
+   - Best CNN weights saved to `models/apple_leaf_disease_cnn.h5`
 
 ---
 
-## 🎓 Getting Started with the Notebooks
+## 🎓 Getting Started with the Project
 
-### For Beginners
-1. Start with `01_data_exploration.ipynb` to understand the dataset
-2. Review visualizations and class distributions
-3. Move to `main.ipynb` for full training pipeline
+### Run the Complete Pipeline
 
-### For Advanced Users
-1. Skip to `02_preprocessing.ipynb` to modify preprocessing steps
-2. Experiment with different model architectures in `main.ipynb`
-3. Use `03_model_evaluation.ipynb` for detailed analysis
+1. Navigate to the project directory:
+   ```bash
+   cd apple_leaf_disease_ai
+   ```
+
+2. Open the main Jupyter notebook:
+   ```bash
+   jupyter notebook main.ipynb
+   ```
+
+3. Execute cells sequentially:
+   - **Cells 1-3**: Environment setup and imports
+   - **Cells 4-6**: Data loading (Train/Val/Test splits)
+   - **Cells 7-9**: Data visualization and exploration
+   - **Cells 10-15**: Task 1 - MLP training and evaluation
+   - **Cells 16-17**: Task 2 - Random Forest training and evaluation
+   - **Cells 18-30**: Task 3 - CNN training and evaluation
+   - **Cells 31-38**: Task 4 - K-Means clustering and analysis
+
+### Expected Output
+
+After running the notebook:
+- ✅ Trained models saved to `models/`
+- ✅ Performance metrics in `outputs/model_performance_comparison.csv`
+- ✅ Visualizations: confusion matrices, learning curves, class distribution
+- ✅ Best model: Baseline CNN (**84.76% accuracy**)
 
 ---
 
